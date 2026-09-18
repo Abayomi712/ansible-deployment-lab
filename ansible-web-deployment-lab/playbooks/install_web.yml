@@ -1,0 +1,62 @@
+---
+- name: Install and configure Apache web servers
+  hosts: rhel_servers
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Install Apache and firewalld
+      ansible.builtin.dnf:
+        name:
+          - httpd
+          - firewalld
+        state: present
+
+    - name: Create a customized home page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        owner: root
+        group: root
+        mode: "0644"
+        backup: true
+        content: |
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <title>{{ inventory_hostname }} Deployment</title>
+          </head>
+          <body style="font-family: Arial; text-align: center; margin-top: 80px;">
+            <h1>Website deployed successfully!</h1>
+            <h2>Server: {{ inventory_hostname }}</h2>
+            <p>Hostname: {{ ansible_hostname }}</p>
+            <p>
+              Operating system:
+              {{ ansible_distribution }}
+              {{ ansible_distribution_version }}
+            </p>
+            <p>
+              This website was installed and configured
+              automatically with Ansible.
+            </p>
+          </body>
+          </html>
+
+    - name: Start and enable firewalld
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Allow web traffic through the firewall
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        immediate: true
+        state: enabled
+
+    - name: Start and enable Apache
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
