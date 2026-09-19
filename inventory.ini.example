@@ -1,0 +1,6 @@
+[rhel_servers]
+rhel-web1 ansible_host=192.0.2.21
+rhel-file1 ansible_host=192.0.2.22
+
+[rhel_servers:vars]
+ansible_user=administrator

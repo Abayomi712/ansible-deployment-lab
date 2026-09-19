@@ -303,14 +303,6 @@ Use example addresses and sanitized screenshots in public documentation.
 
 ---
 
-## Download the Complete Guide
-
-hoose the format that works best for you:
-
-- [View or download the PDF guide](documents/Ansible_Beginner_Website_Deployment_Guide.pdf)
-- [Download the Microsoft Word guide](documents/Ansible_Beginner_Website_Deployment_Guide.docx)
-
-
 ## Final Result
 
 This project proves that one administrator can use Ansible to deploy and configure multiple Linux web servers from one control machine.
